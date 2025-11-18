@@ -6,8 +6,10 @@ import com.sky.constant.PasswordConstant;
 import com.sky.constant.StatusConstant;
 import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
+import com.sky.dto.EmployeePageQueryDTO;
 import com.sky.entity.Employee;
 import com.sky.properties.JwtProperties;
+import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.EmployeeService;
 import com.sky.utils.JwtUtil;
@@ -20,10 +22,7 @@ import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -84,7 +83,11 @@ public class EmployeeController {
         return Result.success();
     }
 
-
+    /**
+     * 添加员工
+     * @param employeeDTO
+     * @return
+     */
     @PostMapping
     public Result<Object> addEmployee(@RequestBody EmployeeDTO employeeDTO) {
         //查看当前线程id
@@ -94,4 +97,15 @@ public class EmployeeController {
         return Result.<Object>success(MessageConstant.ADD_EMPLOYEE_SUCCESS,data);
     }
 
+    /**
+     * 员工分页查询 ， 模糊查询
+     * @param employeePageQueryDTO
+     * @return
+     */
+    @GetMapping("/page")
+    public Result<PageResult> pageQuery(EmployeePageQueryDTO employeePageQueryDTO){
+        log.info("员工分页查询 {}" ,employeePageQueryDTO );
+        PageResult result = employeeService.pageQuery(employeePageQueryDTO);
+        return Result.success(result);
+    }
 }

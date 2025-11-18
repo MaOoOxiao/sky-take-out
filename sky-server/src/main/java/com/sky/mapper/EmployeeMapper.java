@@ -4,7 +4,10 @@ import com.sky.dto.EmployeeDTO;
 import com.sky.entity.Employee;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 @Mapper
 public interface EmployeeMapper {
@@ -24,4 +27,9 @@ public interface EmployeeMapper {
     @Insert("Insert Into employee(name,username ,password ,phone , sex ,id_number , status , create_time ,update_time , create_user ,update_user)"+
             " values( #{name}, #{name} , #{password} , #{phone} , #{sex} , #{idNumber} , #{status} , #{createTime} , #{updateTime} , #{createUser}, #{updateUser} )")
     Boolean addEmployee(Employee e);
+
+    @Select("select count(*) from employee where name LIKE CONCAT('%', #{name}, '%') ")
+    int getSizeByName(String name);
+
+    List<Employee> getBynameIndexSize (@Param("name")String name );
 }
