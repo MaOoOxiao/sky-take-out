@@ -43,5 +43,16 @@ public interface EmployeeMapper {
      */
     List<Employee> getBynameIndexSize (@Param("name")String name );
 
+    /**
+     * 更新员工
+     * @param e
+     */
     void updateEmployee (Employee e);
+
+    /**
+     * 根据员工获取信息
+     * @param id
+     * @return
+     */
+    Employee getById(Long id );
 }

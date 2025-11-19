@@ -15,4 +15,9 @@ public class BaseContext {
     public static void remove(){
         tl.remove();
     }
+
+    public static Long getCurrentId(){
+        return  tl.get();
+    }
+
 }
