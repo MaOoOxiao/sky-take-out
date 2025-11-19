@@ -17,6 +17,7 @@ import com.sky.vo.EmployeeLoginVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.BeanUtils;
@@ -108,4 +109,14 @@ public class EmployeeController {
         PageResult result = employeeService.pageQuery(employeePageQueryDTO);
         return Result.success(result);
     }
+
+    @PostMapping("status/{status}")
+    @ApiOperation("更改员工状态")
+    public Result StartOrStop(@PathVariable Integer status , Long id){
+        log.info("接受员工id和更改的状态 ： 状态为{} ，员工id为{}" , status , id  );
+        employeeService.StartOrStop(status , id );
+        return Result.success();
+    }
+
+
 }

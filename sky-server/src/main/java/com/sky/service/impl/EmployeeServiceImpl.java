@@ -93,6 +93,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
 
+    /**
+     * 分页查询
+     * @param employeePageQueryDTO
+     * @return
+     */
     @Override
     public PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO ){
 //        int index = employeePageQueryDTO.getPage();
@@ -105,6 +110,20 @@ public class EmployeeServiceImpl implements EmployeeService {
         PageHelper.startPage(employeePageQueryDTO.getPage(),employeePageQueryDTO.getPageSize());
         pageResult.setRecords(employeeMapper.getBynameIndexSize(name) );
         return pageResult;
+    }
+
+    /**
+     * 设置员工状态
+     * @param status
+     * @param id
+     */
+    @Override
+    public void StartOrStop(Integer status , Long id ){
+        Employee employee = Employee.builder()
+                .id(id)
+                .status(status)
+                .build();
+        employeeMapper.updateEmployee(employee);
     }
 
 }

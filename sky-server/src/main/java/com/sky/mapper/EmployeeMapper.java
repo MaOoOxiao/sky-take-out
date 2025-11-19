@@ -28,8 +28,20 @@ public interface EmployeeMapper {
             " values( #{name}, #{name} , #{password} , #{phone} , #{sex} , #{idNumber} , #{status} , #{createTime} , #{updateTime} , #{createUser}, #{updateUser} )")
     Boolean addEmployee(Employee e);
 
+    /**
+     * 翻页查询 ， 返回 total页数
+     * @param name
+     * @return
+     */
     @Select("select count(*) from employee where name LIKE CONCAT('%', #{name}, '%') ")
     int getSizeByName(String name);
 
+    /**
+     * 翻页查询 ， 返回 一页的条目
+     * @param name
+     * @return
+     */
     List<Employee> getBynameIndexSize (@Param("name")String name );
+
+    void updateEmployee (Employee e);
 }
