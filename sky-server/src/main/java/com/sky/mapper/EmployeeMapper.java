@@ -1,7 +1,8 @@
 package com.sky.mapper;
 
-import com.sky.dto.EmployeeDTO;
+import com.sky.annotation.AutoFill;
 import com.sky.entity.Employee;
+import com.sky.enumeration.OperationType;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -24,8 +25,9 @@ public interface EmployeeMapper {
      * 根据EmployeeDTO添加用户
      * 返回值: Boolean
      */
-    @Insert("Insert Into employee(name,username ,password ,phone , sex ,id_number , status , create_time ,update_time , create_user ,update_user)"+
-            " values( #{name}, #{name} , #{password} , #{phone} , #{sex} , #{idNumber} , #{status} , #{createTime} , #{updateTime} , #{createUser}, #{updateUser} )")
+    @AutoFill(OperationType.INSERT)
+    @Insert("Insert Into employee(name,username ,password ,phone , sex ,id_number , status , create_time,update_time , create_user, update_user )"+
+            " values( #{name}, #{username} , #{password} , #{phone} , #{sex} , #{idNumber} , #{status} , #{createTime} , #{updateTime} , #{createUser}, #{updateUser} )")
     Boolean addEmployee(Employee e);
 
     /**
@@ -47,6 +49,7 @@ public interface EmployeeMapper {
      * 更新员工
      * @param e
      */
+    @AutoFill(value = OperationType.UPDATE)
     void updateEmployee (Employee e);
 
     /**

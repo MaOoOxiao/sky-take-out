@@ -4,7 +4,6 @@ import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
 import com.sky.constant.PasswordConstant;
 import com.sky.constant.StatusConstant;
-import com.sky.context.BaseContext;
 import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
 import com.sky.dto.EmployeePageQueryDTO;
@@ -19,8 +18,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
-
-import java.time.LocalDateTime;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -72,23 +69,14 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     public Boolean addEmployee(EmployeeDTO employeeDTO){
-        //查看当前线程id
-        System.out.println("当前线程 ： "+Thread.currentThread().getId());
         Employee employee = new Employee();
         //拷贝属性值
         BeanUtils.copyProperties(employeeDTO, employee);
         // 设置状态
         employee.setStatus(StatusConstant.ENABLE);
-        // 设置创建和更新时间
-        employee.setCreateTime(LocalDateTime.now());
-        employee.setUpdateTime(LocalDateTime.now());
         //设置密码
         String pwd = DigestUtils.md5DigestAsHex(PasswordConstant.DEFAULT_PASSWORD.getBytes());
         employee.setPassword(pwd);
-        //设置修改人 id
-        Long empId = BaseContext.get();
-        employee.setCreateUser( empId);
-        employee.setUpdateUser(empId);
         return employeeMapper.addEmployee(employee);
     }
 
@@ -137,12 +125,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setPassword("****");
         return  employee;
     }
+
+    /**
+     * 修改员工
+     */
+    @Override
     public void editEmployee(EmployeeDTO employeeDTO){
         Employee employee = new Employee();
         BeanUtils.copyProperties(employeeDTO, employee);
-        employee.setUpdateTime(LocalDateTime.now());
-        employee.setUpdateUser(BaseContext.get());
-        BaseContext.remove();
         employeeMapper.updateEmployee(employee);
     }
 
