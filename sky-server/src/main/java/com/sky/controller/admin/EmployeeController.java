@@ -70,6 +70,7 @@ public class EmployeeController {
      *
      * @return
      */
+    @ApiOperation("退出方法")
     @PostMapping("/logout")
     public Result<String> logout() {
         return Result.success();
@@ -81,6 +82,7 @@ public class EmployeeController {
      * @return
      */
     @PostMapping
+    @ApiOperation("添加员工")
     public Result<Object> addEmployee(@RequestBody EmployeeDTO employeeDTO) {
         //查看当前线程id
         System.out.println("当前线程 ： "+Thread.currentThread().getId());
@@ -95,6 +97,7 @@ public class EmployeeController {
      * @return
      */
     @GetMapping("/page")
+    @ApiOperation("员工分页查询")
     public Result<PageResult> pageQuery(EmployeePageQueryDTO employeePageQueryDTO){
         log.info("员工分页查询 {}" ,employeePageQueryDTO );
         PageResult result = employeeService.pageQuery(employeePageQueryDTO);
@@ -121,6 +124,7 @@ public class EmployeeController {
      * @return Employee实体类
      */
     @GetMapping("/{id}")
+    @ApiOperation("根据id查询员工")
     public Result<Employee> getById(@PathVariable Long id ){
         log.info("根据员工id={},来进行查询",id);
         return Result.success(employeeService.getById(id) );
